@@ -1,0 +1,28 @@
+{
+  "name": "nodeexpresstemplate",
+  "version": "1.0.0",
+  "description": "A simple node server with an express wrapper and boilerplate code for routing and authentication with nodemon",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R min'"
+  },
+  "author": "Richard Andrews",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "express-validator": "^3.2.0",
+    "install": "^0.10.1",
+    "mocha": "^3.4.2",
+    "mongodb": "^2.2.28",
+    "mongoose": "^4.10.5",
+    "npm": "^5.0.3",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "supertest": "^3.0.0"
+  }
+}
