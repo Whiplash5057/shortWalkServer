@@ -13,16 +13,16 @@ const UserSchema = new Schema({
   password: {
     type: String,
     validate: {
-      validator: (password) => password.length > 6,
-      message: 'Password must be longer than 6 characters.',
+      validator: (password) => password.length > 4,
+      message: 'Password must be longer than 4 characters.',
     },
     required: [true, 'Password is required'],
   },
   username: {
     type: String,
     validate: {
-      validator: (username) => username.length > 5,
-      message: 'Name must be longer than 2 characters.',
+      validator: (username) => username.length > 4,
+      message: 'Name must be longer than 4 characters.',
     },
     required: [true, 'Name is required'],
     unique: true,

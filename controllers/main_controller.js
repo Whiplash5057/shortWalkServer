@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
   greeting(req, res) {
-    res.send({ hi: 'there' });
+    res.send({ message: 'success' });
   },
 
   login(req, res, next) { //login
@@ -52,15 +52,17 @@ module.exports = {
       let authToke = hashPass + user._id;
 
       returnVal.message = 'success';
+      returnVal.status = 'success';
       let token = { authToken:  authToke };
       returnVal.response = token;
       res.send(returnVal);
     };
 
     const loginErrors = () => {
-      returnVal.message = 'error';
+      returnVal.message = 'Enter your correct username and password';
+      returnVal.status = 'failure';
       returnVal.response = {
-        msg: 'Enter your correct username and password',
+        response: { authToken: '' },
       };
       res.status(402).send(returnVal);
       next();
@@ -88,12 +90,17 @@ module.exports = {
           const returnVal = new Object();
           returnVal.message = 'success';
           let token = { authToken: authToke };
+          returnVal.status = 'success';
           returnVal.response = token;
           res.send(returnVal);
         })
         .catch((error) => {
           if (error.name === 'MongoError' && error.code === 11000) {
-            res.send({ status: 'error', msg: 'Username already exists' });
+            res.send({
+              status: 'failure',
+              message: 'Username already exists',
+              response: { authToken: '' },
+            });
           }else {
             next(error);
           }

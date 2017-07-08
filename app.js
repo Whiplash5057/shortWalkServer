@@ -24,7 +24,15 @@ routes(app);
 
 //POSTOPERATION MIDDLEWARE
 app.use((err, req, res, next) => {
-  res.status(422).send({ error: err });
+  res.status(422)
+  .send({
+    status: 'failure',
+    message: 'Something went wrong',
+    response: {
+      authToken: '',
+      err,
+    },
+  });
 });
 
 module.exports = app;
