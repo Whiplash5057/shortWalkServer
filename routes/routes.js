@@ -1,6 +1,5 @@
 const MainController = require('../controllers/main_controller');
 const UiController = require('../controllers/ui_controller');
-
 const UpdateController = require('../controllers/update_controller');
 
 module.exports = (app) => {
@@ -13,4 +12,6 @@ module.exports = (app) => {
   app.get('/api/closestCompitition', UiController.index);
 
   app.put('/api/addNewLocation', UpdateController.create);
+
+  app.put('/api/updateHomeLocation', UpdateController.updateHome);
 };

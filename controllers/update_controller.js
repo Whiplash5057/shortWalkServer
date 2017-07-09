@@ -1,5 +1,6 @@
 const MainDB = require('../models/main_db');
 const AddWalke = require('../models/user_addWalk_schema');
+const UpdateFixedWalk = require('../models/user_fixed_schema');
 
 module.exports = {
   create(req, res, next) {
@@ -12,10 +13,10 @@ module.exports = {
     // newAddWalk = new AddWalke({ coordinates: [lng, lat] });
     AddWalke.create({ coordinates: [lng, lat] })
       .then((value) => {
-        console.log(value);
+        // console.log(value);
         MainDB.update(
           { username: userName },
-          { $push: { addNewLocations: newAddWalk } })
+          { $push: { addNewLocations: value } })
           .then((output) => {
             returnVal.message = 'success';
             returnVal.response = output;
@@ -41,4 +42,27 @@ module.exports = {
     //     next(err);
     //   });
   },
+
+  updateHome(req, res, next) {
+    let newAddWalk;
+    const returnVal = new Object();
+    const userName = req.body.username;
+    const { lng, lat } = req.body;
+    console.log(lng + ' ' +  lat + ' are the lng lat');
+
+    value = { coordinates: [lng, lat] };
+    MainDB.update(
+      { username: userName },
+      { geometry: value }
+    )
+      .then((output) => {
+        returnVal.message = 'success';
+        returnVal.response = output;
+        res.send(returnVal);
+      })
+      .catch((err) => {
+        next(err);
+      });;
+  },
+
 };

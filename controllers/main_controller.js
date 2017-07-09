@@ -96,7 +96,7 @@ module.exports = {
         })
         .catch((error) => {
           if (error.name === 'MongoError' && error.code === 11000) {
-            res.send({
+            res.status(422).send({
               status: 'failure',
               message: 'Username already exists',
               response: { authToken: '' },
