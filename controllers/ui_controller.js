@@ -1,4 +1,5 @@
 const MainDB = require('../models/main_db');
+const AddWalke = require('../models/user_addWalk_schema');
 
 let maxDistanceValue = 2000;
 
@@ -13,5 +14,20 @@ module.exports = {
     ).then((users) => res.send(users))
       .catch(next);
 
+  },
+
+  getFrogs(req, res, next) {
+    const { username } = req.body;
+    MainDB.findOne({ username }, { addNewLocations: 1 })
+    .then((value) => {
+      // console.log(value.addNewLocations[0]);
+      AddWalke.find({ _id: { $in: value.addNewLocations } })
+      .then((valueInner) => {
+        console.log(valueInner);
+        res.send(valueInner);
+      })
+      .catch(next);
+    })
+    .catch(next);
   },
 };

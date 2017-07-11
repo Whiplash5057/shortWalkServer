@@ -11,6 +11,8 @@ module.exports = (app) => {
 
   app.get('/api/closestCompitition', UiController.index);
 
+  app.put('/api/getAllFrogs', UiController.getFrogs);
+
   app.put('/api/addNewLocation', UpdateController.create);
 
   app.put('/api/updateHomeLocation', UpdateController.updateHome);
@@ -18,4 +20,5 @@ module.exports = (app) => {
   app.put('/api/updateNewFrogFound', UpdateController.updateNewFrogFound);
 
   app.put('/api/updateNewFrogValid', UpdateController.updateNewFrogValid);
+
 };

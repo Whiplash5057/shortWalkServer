@@ -8,7 +8,8 @@ module.exports = {
     const returnVal = new Object();
     const userName = req.body.username;
     const { lng, lat } = req.body;
-    console.log(lng + lat + ' are the lat lngs');
+
+    // console.log(lng + lat + ' are the lat lngs');
 
     // newAddWalk = new AddWalke({ coordinates: [lng, lat] });
     AddWalke.create({ coordinates: [lng, lat] })
@@ -49,7 +50,8 @@ module.exports = {
     const returnVal = new Object();
     const userName = req.body.username;
     const { lng, lat } = req.body;
-    console.log(lng + ' ' +  lat + ' are the lng lat');
+
+    // console.log(lng + ' ' +  lat + ' are the lng lat');
 
     value = { coordinates: [lng, lat] };
     MainDB.update(
