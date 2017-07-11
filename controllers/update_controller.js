@@ -7,12 +7,13 @@ module.exports = {
     let newAddWalk;
     const returnVal = new Object();
     const userName = req.body.username;
+    const locationName = req.body.locationName;
     const { lng, lat } = req.body;
 
     // console.log(lng + lat + ' are the lat lngs');
 
     // newAddWalk = new AddWalke({ coordinates: [lng, lat] });
-    AddWalke.create({ coordinates: [lng, lat] })
+    AddWalke.create({ coordinates: [lng, lat],  locationName })
       .then((value) => {
         // console.log(value);
         MainDB.update(

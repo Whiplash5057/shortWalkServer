@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const UserAddWalkSchema = new Schema({
   coordinates: [Number],
+  locationName: {
+    type: String,
+    default: 'Not Defined',
+  },
   isComplete: {
     type: Boolean,
     default: false,

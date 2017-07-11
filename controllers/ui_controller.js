@@ -7,7 +7,6 @@ module.exports = {
   index(req, res, next) {
     // res.send({ hi: 'there' });
     const { lng, lat } = req.query;
-
     MainDB.geoNear(
       { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
       { spherical: true, maxDistance:  maxDistanceValue }
@@ -18,13 +17,15 @@ module.exports = {
 
   getFrogs(req, res, next) {
     const { username } = req.body;
+    const returnVal = new Object();
     MainDB.findOne({ username }, { addNewLocations: 1 })
     .then((value) => {
       // console.log(value.addNewLocations[0]);
       AddWalke.find({ _id: { $in: value.addNewLocations } })
       .then((valueInner) => {
-        console.log(valueInner);
-        res.send(valueInner);
+        returnVal.message = 'success';
+        returnVal.response = valueInner;
+        res.send(returnVal);
       })
       .catch(next);
     })
