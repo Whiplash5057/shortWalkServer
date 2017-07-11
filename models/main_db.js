@@ -31,6 +31,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  totalScore: {
+    type: Number,
+    default: 0,
+  },
   addNewLocations: [
     {
       type: Schema.Types.ObjectId,

@@ -20,6 +20,7 @@ module.exports = {
           .then((output) => {
             returnVal.message = 'success';
             returnVal.response = output;
+            returnVal.response.latLngId = value._id;
             res.send(returnVal);
           })
           .catch((err) => {
@@ -63,6 +64,34 @@ module.exports = {
       .catch((err) => {
         next(err);
       });;
+  },
+
+  updateNewFrogFound(req, res, next) {
+    const returnVal = new Object();
+    const userName = req.body.username;
+    const { latLngId } = req.body;
+    AddWalke.findByIdAndUpdate({ _id: latLngId }, { isComplete: true })
+    .then((output) => {
+      returnVal.message = 'success';
+      res.send(returnVal);
+    })
+    .catch((err) => {
+      next(err);
+    });;
+  },
+
+  updateNewFrogValid(req, res, next) {
+    const returnVal = new Object();
+    const userName = req.body.username;
+    const { latLngId } = req.body;
+    AddWalke.findByIdAndUpdate({ _id: latLngId }, { isValid: false })
+    .then((output) => {
+      returnVal.message = 'success';
+      res.send(returnVal);
+    })
+    .catch((err) => {
+      next(err);
+    });;
   },
 
 };

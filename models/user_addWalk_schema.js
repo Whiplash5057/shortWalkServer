@@ -13,7 +13,7 @@ const UserAddWalkSchema = new Schema({
   },
   isValid: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 

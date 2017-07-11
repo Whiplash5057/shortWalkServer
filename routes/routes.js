@@ -14,4 +14,8 @@ module.exports = (app) => {
   app.put('/api/addNewLocation', UpdateController.create);
 
   app.put('/api/updateHomeLocation', UpdateController.updateHome);
+
+  app.put('/api/updateNewFrogFound', UpdateController.updateNewFrogFound);
+
+  app.put('/api/updateNewFrogValid', UpdateController.updateNewFrogValid);
 };
