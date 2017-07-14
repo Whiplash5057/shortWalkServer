@@ -25,13 +25,17 @@ const UserSchema = new Schema({
       message: 'Name must be longer than 4 characters.',
     },
     required: [true, 'Name is required'],
-    unique: true,
+    index: { unique: true },
   },
   date: {
     type: Date,
     default: Date.now,
   },
   totalScore: {
+    type: Number,
+    default: 0,
+  },
+  streakLength: {
     type: Number,
     default: 0,
   },

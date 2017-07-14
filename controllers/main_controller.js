@@ -84,6 +84,10 @@ module.exports = {
     };
 
     const createTheNewUserAfterHash = (hashPass) => {
+      // MainDB.on('index', function (error) {
+      //
+      // });
+
       MainDB.create(userProps)
         .then((user) => {
           let authToke = hashPass + user._id;

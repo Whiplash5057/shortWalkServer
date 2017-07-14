@@ -19,6 +19,10 @@ const UserAddWalkSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  username: {
+    type: String,
+    default: 'default',
+  },
 });
 
 const UserAddWalk = mongoose.model('useraddwalk', UserAddWalkSchema);

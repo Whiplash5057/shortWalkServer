@@ -1,8 +1,11 @@
+const CronController = require('./controllers/cron_controller');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const routes = require('./routes/routes');
+const cron = require('node-cron');
 
 //THE EXPRESS IS A WRAPPER WHICH RETURNS A FUNCTION
 
@@ -11,9 +14,29 @@ const app = express();
 //THE PROMISE PROVIDED BY MONGOOSE HAS BEEN DEPRICATED
 mongoose.Promise = global.Promise;
 
+// setInterval(function () {
+//   console.log('Hello');
+// }, 2000);
+cron.schedule('23 * * *', function () {
+  CronController.updateWeeklyCronJob();
+});
+
+// cron.schedule('* * * * *', function () {
+//   CronController.updateWeeklyCronJob();
+// });
+
 if (process.env.NODE_ENV != 'test')
 {
-  mongoose.connect('mongodb://localhost/ShortWalk');
+  // mongoose.connect('mongodb://localhost/ShortWalk', { useMongoClient: true })
+  //   .then(() => console.log('connected'))
+  //   .catch(err => console.error(err));
+
+  mongoose.connect(
+      'mongodb://frog1:frogNumber1@ds055872.mlab.com:55872/findthefrog',
+       { useMongoClient: true })
+      .then(() => console.log('connected'))
+      .catch(err => console.error(err));
+
 }
 
 //USE - MIDDLEWARE FOR express
