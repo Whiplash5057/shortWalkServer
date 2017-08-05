@@ -18,7 +18,7 @@
     "install": "^0.10.1",
     "mocha": "^3.4.2",
     "mongodb": "^2.2.28",
-    "mongoose": "^4.10.5",
+    "mongoose": "^4.10.8",
     "node-cron": "^1.2.0",
     "npm": "^5.0.3",
     "supertest": "^3.0.0"

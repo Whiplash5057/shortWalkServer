@@ -17,7 +17,8 @@ mongoose.Promise = global.Promise;
 // setInterval(function () {
 //   console.log('Hello');
 // }, 2000);
-cron.schedule('23 * * *', function () {
+cron.schedule('1 * * * *', function () {
+  console.log('abc');
   CronController.updateWeeklyCronJob();
 });
 
