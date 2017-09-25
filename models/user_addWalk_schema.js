@@ -23,6 +23,12 @@ const UserAddWalkSchema = new Schema({
     type: String,
     default: 'default',
   },
+  questions: {
+    type: [String],
+  },
+  answers: {
+    type: [String],
+  },
 });
 
 const UserAddWalk = mongoose.model('useraddwalk', UserAddWalkSchema);

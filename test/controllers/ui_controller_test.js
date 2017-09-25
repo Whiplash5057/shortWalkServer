@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../../app');
 
 const User = mongoose.model('user');
+const AddWalk = require('../../models/user_addWalk_schema');
 
 describe('UI controllers', () => {
   it('GET to /api/closestCompitition finds users about a nearby location', (done) => {
@@ -15,6 +16,9 @@ describe('UI controllers', () => {
         geometry: { type: 'Point', coordinates: [72.001, 19.001] },
       }
     );
+    let newLocations = new AddWalk({ coordinates: [10, 20], username: 'ricardo234' });
+    let newLocationsTwo = new AddWalk({ coordinates: [11, 20], username: 'dicardo234' });
+    nonMulundUserOne.addNewLocations.push(newLocations);
 
     const mulundUserTwo = new User(
       {
@@ -24,12 +28,24 @@ describe('UI controllers', () => {
         geometry: { type: 'Point', coordinates: [72, 19] },
       }
     );
-    Promise.all([nonMulundUserOne.save(), mulundUserTwo.save()])
+
+    mulundUserTwo.addNewLocations.push(newLocationsTwo);
+
+    Promise.all(
+      [nonMulundUserOne.save(), mulundUserTwo.save(), newLocations.save(), newLocationsTwo.save()]
+    )
       .then(() => {
         request(app)
-          .get('/api/closestCompitition?lng=72&lat=19')
+          .post('/api/closestCompitition')
+          .send(
+            {
+              lng: 72,
+              lat: 19,
+              username: 'rich1234',
+            }
+          )
           .end((err, response) => {
-            console.log(response.body);
+            // console.log(response.body);
             done();
           });
       });

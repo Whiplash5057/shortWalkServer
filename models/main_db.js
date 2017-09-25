@@ -31,6 +31,9 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  completedNearByFrogs: {
+    type: [String],
+  },
   totalScore: {
     type: Number,
     default: 0,

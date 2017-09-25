@@ -9,7 +9,9 @@ module.exports = (app) => {
 
   app.post('/api/login', MainController.login);
 
-  app.get('/api/closestCompitition', UiController.index);
+  app.post('/api/closestCompitition', UiController.index);
+
+  app.post('/api/completedNearByFrogs', UpdateController.completedNearByFrogs);
 
   app.put('/api/getAllFrogs', UiController.getFrogs);
 

@@ -1,17 +1,69 @@
 const MainDB = require('../models/main_db');
 const AddWalke = require('../models/user_addWalk_schema');
 
-let maxDistanceValue = 2000;
+let maxDistanceValue = 20000;
 
 module.exports = {
   index(req, res, next) {
     // res.send({ hi: 'there' });
-    const { lng, lat } = req.query;
+    const { lng, lat } = req.body;
+    const returnVal = new Object();
+    const userName = req.body.username;
+    let resultLocationArray = [];
+
+    // console.log(userName);
     MainDB.geoNear(
       { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
       { spherical: true, maxDistance:  maxDistanceValue }
-    ).then((users) => res.send(users))
-      .catch(next);
+    ).then((users) => {
+      returnVal.message = 'success';
+
+      // console.log(users);
+
+      let requests = users.reduce((promiseChain, item) => {
+        return promiseChain.then(() => new Promise((resolve) => {
+          asyncFunction(item, resolve);
+        }));
+      }, Promise.resolve());
+
+      requests.then(() => {
+        returnVal.response = resultLocationArray;
+        // console.log(returnVal);
+        res.send(returnVal);
+      });
+
+    }).catch(next);
+
+    function asyncFunction(item, cb) {
+
+      // setTimeout(() => {
+      //   console.log('done with', item);
+      //   cb();
+      // }, 100);
+
+      let { username } = item.obj;
+      // console.log(username);
+      if (username != userName) {
+        MainDB.findOne({ username }, { addNewLocations: 1 })
+          .then((value) => {
+            // console.log(value);
+            AddWalke.find({ _id: { $in: value.addNewLocations }, isValid: true }).sort({ date: -1 })
+              .then((valueInner) => {
+                // console.log(valueInner);
+
+                if (resultLocationArray.length == 0)
+                  resultLocationArray = [...valueInner];
+                else
+                  resultLocationArray = [...resultLocationArray, ...valueInner];
+
+                cb();
+              });
+          }).catch(next);
+      } else {
+        cb();
+      }
+
+    }
 
   },
 
@@ -24,6 +76,7 @@ module.exports = {
 
         returnVal.totalScore = valueOuter.totalScore;
         returnVal.streakLength = valueOuter.streakLength;
+        returnVal.completedNearByFrogs = valueOuter.completedNearByFrogs;
 
         MainDB.findOne({ username }, { addNewLocations: 1 })
         .then((value) => {

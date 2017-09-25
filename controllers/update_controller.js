@@ -7,13 +7,22 @@ module.exports = {
     let newAddWalk;
     const returnVal = new Object();
     const userName = req.body.username;
+    const { questions } = req.body;
+    const { answers } = req.body;
     const locationName = req.body.locationName;
     const { lng, lat } = req.body;
 
     // console.log(lng + lat + ' are the lat lngs');
 
     // newAddWalk = new AddWalke({ coordinates: [lng, lat] });
-    AddWalke.create({ coordinates: [lng, lat],  locationName, username: userName })
+    // verifyIfUserValid(userName, tokenId)
+    //   .then((innerThen) => {
+    //     console.log(innerThen);
+    //   })
+    //   .catch((err) => { next(err); });
+
+    AddWalke.create({ coordinates: [lng, lat],
+      locationName, username: userName, questions, answers, })
       .then((value) => {
         // console.log(value);
         MainDB.update(
@@ -116,6 +125,41 @@ module.exports = {
           .catch(next);
   },
 
+  completedNearByFrogs(req, res, next) {
+    console.log('entered');
+    const returnVal = new Object();
+
+    const { eventId } = req.body;
+    const { username } = req.body;
+    const { isCorrect } = req.body;
+
+    if (isCorrect) {
+      MainDB.findOneAndUpdate({ username: username },
+        {
+          $push: { completedNearByFrogs: eventId },
+          $inc: { totalScore: 100 },
+        }
+      )
+        .then((value) => {
+          // console.log(value);
+          returnVal.message = 'success';
+          res.send(returnVal);
+        }).catch(next);
+    } else {
+      MainDB.findOneAndUpdate({ username: username },
+        {
+          $inc: { totalScore: -50 },
+        }
+      )
+        .then((value) => {
+          // console.log(value);
+          returnVal.message = 'success';
+          res.send(returnVal);
+        }).catch(next);
+    }
+
+  },
+
   updateNewFrogValid(req, res, next) {
     const returnVal = new Object();
     const userName = req.body.username;
@@ -131,3 +175,22 @@ module.exports = {
   },
 
 };
+
+function verifyIfUserValid(userName, tokenId) {
+  let tempBool = true;
+  return new Promise((resolve, reject) => {
+
+    MainDB.findOne({ $text: { $search: userName } })
+      .then((value) => {
+        // console.log(value.password + ' asking value ' + tokenId);
+        let decryptPass = value.password + value._id;
+        if (tokenId == decryptPass) {
+          resolve('Go on');
+        } else {
+          resolve('Go on');
+        }
+      })
+      .catch((err) => next(err));
+
+  });
+}

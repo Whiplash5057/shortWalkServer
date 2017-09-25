@@ -17,12 +17,13 @@ mongoose.Promise = global.Promise;
 // setInterval(function () {
 //   console.log('Hello');
 // }, 2000);
-cron.schedule('1 * * * *', function () {
+cron.schedule('50 * * * *', function () {
   console.log('abc');
   CronController.updateWeeklyCronJob();
 });
 
-// cron.schedule('* * * * *', function () {
+// cron.schedule('1 * * * * *', function () {
+//   console.log('abc');
 //   CronController.updateWeeklyCronJob();
 // });
 
